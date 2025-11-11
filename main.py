@@ -25,6 +25,7 @@ run = True
 while run:
 
     
+    
 
     jugador.dibujar(ventana) #Dibujar personaje
 
