@@ -4,6 +4,8 @@ from personaje import Personaje
 
 import constantes 
 
+from Funciones import movimiento
+
 
 #Creacion de personaje
 
@@ -20,11 +22,56 @@ ventana= pygame.display.set_mode((constantes.ANCHO, constantes.ALTO)) # Creacion
 pygame.display.set_caption("Jueguito 1") # Cambiar el nombre de la ventana
 
 
+#Definir variables de movimiento del jugador
+
+mover_arriba = False #falso hasta presionar la tecla W
+mover_abajo = False #falso hasta presionar la tecla s
+mover_izquerda = False #falso hasta presionar la tecla a
+mover_derecha= False #falso hasta presionar la tecla d
+
+
+
+
+reloj = pygame.time.Clock() # controlador de frames por segundo
+
 run = True
+
+
 
 while run:
 
+    #FPS
+
+    reloj.tick(constantes.FPS)
+
+    ventana.fill(constantes.COLOR_FONDO) #Pintar el fondo
+
     
+    #Calcular movimiento del jugador
+    delta_x = 0
+    delta_y = 0
+
+    if mover_derecha == True:
+        delta_x = constantes.VELOCIDAD
+
+    if mover_izquerda == True:
+        delta_x = -(constantes.VELOCIDAD)
+
+    if mover_arriba == True:
+        delta_y = -(constantes.VELOCIDAD)
+
+    if mover_abajo== True:
+        delta_y = constantes.VELOCIDAD
+
+
+    #llamado de metodo para mover al jugador
+
+    jugador.movimiento(delta_x, delta_y)
+
+
+
+
+
     
 
     jugador.dibujar(ventana) #Dibujar personaje
@@ -35,7 +82,47 @@ while run:
 
             run = False                # Cambio de estado re uno de true a false para cerrar la ventana
 
-        pygame.display.update() #Actualizar la ventana para ver parametros
+
+### Movimiento de personaje
+
+       # movimiento(event)
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                mover_izquerda = True
+               # print("Izquierda")
+            if event.key == pygame.K_d:
+                mover_derecha = True
+              #  print("Derecha")
+            if event.key == pygame.K_w:
+
+                mover_arriba = True
+                #print("Arriba")
+            if event.key == pygame.K_s:
+                mover_abajo = True
+                #print("Abajo")
+
+        # Para cuando se suelta la tecla
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_a:
+                mover_izquerda = False
+               # print("Izquierda")
+            if event.key == pygame.K_d:
+                mover_derecha = False
+              #  print("Derecha")
+            if event.key == pygame.K_w:
+
+                mover_arriba = False
+                #print("Arriba")
+            if event.key == pygame.K_s:
+                mover_abajo = False
+                #print("Abajo")
+
+       
+
+
+
+    pygame.display.update() #Actualizar la ventana para ver parametros
 
 
 
