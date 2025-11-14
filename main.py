@@ -6,13 +6,6 @@ import constantes
 
 from Funciones import movimiento
 
-
-#Creacion de personaje
-
-jugador = Personaje(50, 50) # creacion y pase de coordenadas a usar
-
-
-
 pygame.init() #Inicializar libreria
 
 #Creacion de ventana
@@ -20,6 +13,44 @@ pygame.init() #Inicializar libreria
 ventana= pygame.display.set_mode((constantes.ANCHO, constantes.ALTO)) # Creacion de una ventana
 
 pygame.display.set_caption("Jueguito 1") # Cambiar el nombre de la ventana
+
+
+# Funcion donde se realiza el escalado de las imagenes
+def escalar_img(image, scale):
+    w = image.get_width() #Altura original
+    h = image.get_height() #Anchura original
+    nueva_imagn = pygame.transform.scale(image, (w*scale, #Escala en ancho
+                                                  h*scale)) #Escala en alto
+    return nueva_imagn
+
+
+
+animaciones = []
+
+for i in range (7):
+    img = pygame.image.load(f"assets//Images//Characters//Player//Foto{i}.png")
+    img = escalar_img(img, constantes.ESCALA_PERSONAJE)
+    animaciones.append(img)
+
+    
+
+
+
+
+#player_image = pygame.image.load("assets//Images//Characters//Player//Foto1.png") #Dimportar imagen de la ruta relativa del proyecto
+
+#Escala de personaje
+#player_image = escalar_img(player_image, constantes.ESCALA_PERSONAJE)
+
+#Creacion de personaje
+
+jugador = Personaje(50, 50, animaciones) # creacion y pase de coordenadas a usar
+
+
+
+
+
+
 
 
 #Definir variables de movimiento del jugador
@@ -67,6 +98,8 @@ while run:
     #llamado de metodo para mover al jugador
 
     jugador.movimiento(delta_x, delta_y)
+
+    jugador.update()
 
 
 
