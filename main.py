@@ -6,6 +6,8 @@ import constantes
 
 from Funciones import movimiento
 
+from Weapond import Weapon
+
 pygame.init() #Inicializar libreria
 
 #Creacion de ventana
@@ -24,15 +26,22 @@ def escalar_img(image, scale):
     return nueva_imagn
 
 
-
+# importar imagenes
 animaciones = []
 
+#Personahe
 for i in range (7):
-    img = pygame.image.load(f"assets//Images//Characters//Player//Foto{i}.png")
+    img = pygame.image.load(f"assets//Images//Characters//Player//Foto{i}.png")#.convert_alpha
+    #                                                                           forzado transparencia de imagenes
     img = escalar_img(img, constantes.ESCALA_PERSONAJE)
     animaciones.append(img)
 
-    
+
+#Arma
+
+imagen_pistola = escalar_img( pygame.image.load("assets//Images//Weaponts//gun.png"), constantes.ESCALA_ARMA)
+                            
+                            #.convert_alpha)
 
 
 
@@ -42,13 +51,14 @@ for i in range (7):
 #Escala de personaje
 #player_image = escalar_img(player_image, constantes.ESCALA_PERSONAJE)
 
-#Creacion de personaje
+#Creacion de jugador de la clase personaje
 
 jugador = Personaje(50, 50, animaciones) # creacion y pase de coordenadas a usar
 
 
+#crear un arma de la clase weapond
 
-
+pistola = Weapon(imagen_pistola)
 
 
 
@@ -99,15 +109,28 @@ while run:
 
     jugador.movimiento(delta_x, delta_y)
 
+    # Actualiza estado jugador
+
     jugador.update()
+
+    #Actualiza el estado del arma
+
+    pistola.update(jugador)
+
+
 
 
 
 
 
     
-
+#Dibujar jugador
     jugador.dibujar(ventana) #Dibujar personaje
+
+
+    #Dibujar arma
+
+    pistola.dibujar(ventana)
 
     for event in pygame.event.get(): # trae y entrega todos los eventos ejecutados en el juego
 
